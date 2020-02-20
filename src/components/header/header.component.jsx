@@ -2,7 +2,7 @@ import React,{useContext, useState} from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import CartContext from '../../contexts/cart/cart.context';
+import {CartContext} from '../../providers/cart/cart.provider';
 
 import { auth } from '../../firebase/firebase.utils';
 import CartIcon from '../cart-icon/cart-icon.component';
@@ -16,8 +16,7 @@ import './header.styles.scss';
 
 const Header = () => {
   const currentUser = useContext(CurrentUserContext);
-  const [hidden, setHidden] = useState(true);
-  const toggleHidden = () => setHidden(!hidden);
+  const {hidden} = useContext(CartContext);
 
   return (
     <div className='header'>
@@ -40,12 +39,7 @@ const Header = () => {
             SIGN IN
           </Link>
         )}
-        <CartContext.Provider value={{
-          hidden,
-          toggleHidden
-        }}>
-           <CartIcon />
-        </CartContext.Provider>
+          <CartIcon />
       </div>
       {hidden ? null : <CartDropdown />}
     </div>
